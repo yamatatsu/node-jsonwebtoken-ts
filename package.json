@@ -1,0 +1,20 @@
+{
+  "name": "node-jsonwebtoken-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/jws": "^3.2.2",
+    "@types/ms": "^0.7.31",
+    "@types/node": "^14.0.10",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "jws": "^4.0.0",
+    "ms": "^2.1.2"
+  }
+}
