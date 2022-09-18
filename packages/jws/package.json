@@ -2,11 +2,14 @@
   "name": "@node-jsonwebtoken-ts/jws",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b"
+  },
   "devDependencies": {
     "jws": "4.0.0"
   },
   "dependencies": {
-    "@node-jsonwebtoken-ts/jwa": "*",
-    "safe-buffer": "^5.2.1"
+    "@node-jsonwebtoken-ts/jwa": "*"
   }
 }

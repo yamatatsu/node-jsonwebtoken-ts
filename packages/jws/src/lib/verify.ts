@@ -1,4 +1,3 @@
-import { Buffer as SafeBuffer } from "safe-buffer";
 import jwa, { Algorithm } from "@node-jsonwebtoken-ts/jwa";
 
 const JWS_REGEX = /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/;
@@ -13,9 +12,7 @@ function safeJsonParse(thing: string) {
 
 function headerFromJWS(jwsSig: string) {
   const encodedHeader = jwsSig.split(".", 1)[0];
-  return safeJsonParse(
-    SafeBuffer.from(encodedHeader, "base64").toString("utf8")
-  );
+  return safeJsonParse(Buffer.from(encodedHeader, "base64").toString("utf8"));
 }
 
 function securedInputFromJWS(jwsSig: string) {
@@ -26,9 +23,9 @@ function signatureFromJWS(jwsSig: string) {
   return jwsSig.split(".")[2];
 }
 
-function payloadFromJWS(jwsSig: string, encoding: string = "utf8") {
+function payloadFromJWS(jwsSig: string, encoding: BufferEncoding = "utf8") {
   const payload = jwsSig.split(".")[1];
-  return SafeBuffer.from(payload, "base64").toString(encoding);
+  return Buffer.from(payload, "base64").toString(encoding);
 }
 
 export function isValid(str: string) {
