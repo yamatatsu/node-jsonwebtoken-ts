@@ -11,7 +11,6 @@ const esPrivateKey = readFile("es.private.pem");
 const esPublicKey = readFile("es.public.pem");
 
 test.each([
-  ["none", "", ""] as const,
   ["RS256", rsaPrivateKey, rsaPublicKey] as const,
   ["RS384", rsaPrivateKey, rsaPublicKey] as const,
   ["RS512", rsaPrivateKey, rsaPublicKey] as const,
@@ -28,7 +27,6 @@ test.each([
 });
 
 test.each([
-  ["none", "", ""] as const,
   ["RS256", rsaPrivateKey, rsaPublicKey] as const,
   ["RS384", rsaPrivateKey, rsaPublicKey] as const,
   ["RS512", rsaPrivateKey, rsaPublicKey] as const,

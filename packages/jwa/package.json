@@ -2,6 +2,10 @@
   "name": "@node-jsonwebtoken-ts/jwa",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b"
+  },
   "devDependencies": {
     "@types/jwa": "^2.0.0",
     "jwa": "^2.0.0"

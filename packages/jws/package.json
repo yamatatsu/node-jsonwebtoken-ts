@@ -6,7 +6,7 @@
     "jws": "4.0.0"
   },
   "dependencies": {
-    "jwa": "^2.0.0",
+    "@node-jsonwebtoken-ts/jwa": "*",
     "safe-buffer": "^5.2.1"
   }
 }

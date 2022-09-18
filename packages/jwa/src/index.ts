@@ -96,15 +96,7 @@ function createECDSAVerifier(bits: string): Verify {
   };
 }
 
-function createNoneSigner(): Sign {
-  return () => "";
-}
-
-function createNoneVerifier(): Verify {
-  return (_: crypto.BinaryLike, signature: string) => signature === "";
-}
-
-type Algorithm =
+export type Algorithm =
   | "HS256"
   | "HS384"
   | "HS512"
@@ -114,8 +106,7 @@ type Algorithm =
   | "PS256"
   | "ES256"
   | "ES384"
-  | "ES512"
-  | "none";
+  | "ES512";
 
 export default function jwa(algorithm: Algorithm) {
   const signerFactories = {
@@ -123,14 +114,12 @@ export default function jwa(algorithm: Algorithm) {
     rs: createKeySigner,
     ps: createPSSKeySigner,
     es: createECDSASigner,
-    none: createNoneSigner,
   };
   const verifierFactories = {
     hs: createHmacVerifier,
     rs: createKeyVerifier,
     ps: createPSSKeyVerifier,
     es: createECDSAVerifier,
-    none: createNoneVerifier,
   };
   const [algo, bits] = getAlgAndBits(algorithm);
 
