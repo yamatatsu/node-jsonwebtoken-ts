@@ -1,43 +1,5 @@
 import { test, expect, describe } from "vitest";
-import {
-  typeError,
-  checkIsPublicKey,
-  checkIsPrivateKey,
-  checkIsSecretKey,
-  getAlgAndBits,
-} from "../src/lib";
-
-test("checkIsPublicKey", () => {
-  expect(() => {
-    checkIsPublicKey({
-      type: "",
-      asymmetricKeyType: "",
-      export: "not-function",
-    });
-  }).toThrow(typeError("key must be a string or a buffer or a KeyObject"));
-});
-
-describe("checkIsPrivateKey()", () => {
-  test.each([
-    ["Buffer", Buffer.from("")],
-    ["string", ""],
-    ["object", {}],
-  ])("if input is %s, no error is thrown.", (_, input) => {
-    expect(checkIsPrivateKey(input)).toBeUndefined();
-  });
-
-  test("if input is number, error is thrown.", () => {
-    expect(() => {
-      checkIsPrivateKey(0);
-    }).toThrow(typeError("key must be a string, a buffer or an object"));
-  });
-});
-
-test("checkIsSecretKey", () => {
-  expect(() => {
-    checkIsSecretKey({ type: "", export: "not-function" });
-  }).toThrow(typeError("secret must be a string or buffer or a KeyObject"));
-});
+import { typeError, getAlgAndBits } from "../src/lib";
 
 test("getAlgAndBits", () => {
   expect(() => {

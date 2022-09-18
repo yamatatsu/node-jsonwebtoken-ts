@@ -1,22 +1,15 @@
 // @ts-ignore
 import bufferEqual from "buffer-equal-constant-time";
-import { Buffer } from "safe-buffer";
+import { Buffer as SafeBuffer } from "safe-buffer";
 import crypto from "crypto";
 import formatEcdsa from "ecdsa-sig-formatter";
-import {
-  checkIsPublicKey,
-  checkIsPrivateKey,
-  checkIsSecretKey,
-  getAlgAndBits,
-} from "./lib";
+import { getAlgAndBits } from "./lib";
 
-type Sign = (thing: string, secret: any) => string;
-type Verify = (thing: string, signature: string, secret: any) => boolean;
-
-function createHmacSigner(bits: string): Sign {
-  return (thing, secret) => {
-    checkIsSecretKey(secret);
-
+function createHmacSigner(bits: string) {
+  return (
+    thing: crypto.BinaryLike,
+    secret: crypto.BinaryLike | crypto.KeyLike
+  ) => {
     return crypto
       .createHmac("sha" + bits, secret)
       .update(thing)
@@ -24,17 +17,29 @@ function createHmacSigner(bits: string): Sign {
   };
 }
 
-function createHmacVerifier(bits: string): Verify {
-  return (thing, signature, secret) => {
+function createHmacVerifier(bits: string) {
+  // TODO: allow signature to be BufferLike
+  return (
+    thing: crypto.BinaryLike,
+    signature: string,
+    secret: crypto.BinaryLike | crypto.KeyLike
+  ) => {
     const computedSig = createHmacSigner(bits)(thing, secret);
-    return bufferEqual(Buffer.from(signature), Buffer.from(computedSig));
+    return bufferEqual(
+      SafeBuffer.from(signature),
+      SafeBuffer.from(computedSig)
+    );
   };
 }
 
-function createKeySigner(bits: string): Sign {
-  return (thing, privateKey) => {
-    checkIsPrivateKey(privateKey);
-
+function createKeySigner(bits: string) {
+  return (
+    thing: crypto.BinaryLike,
+    privateKey:
+      | crypto.KeyLike
+      | crypto.SignKeyObjectInput
+      | crypto.SignPrivateKeyInput
+  ) => {
     // Even though we are specifying "RSA" here, this works with ECDSA
     // keys as well.
     return crypto
@@ -44,10 +49,15 @@ function createKeySigner(bits: string): Sign {
   };
 }
 
-function createKeyVerifier(bits: string): Verify {
-  return (thing, signature, publicKey) => {
-    checkIsPublicKey(publicKey);
-
+function createKeyVerifier(bits: string) {
+  return (
+    thing: crypto.BinaryLike,
+    signature: string,
+    publicKey:
+      | crypto.KeyLike
+      | crypto.VerifyKeyObjectInput
+      | crypto.VerifyPublicKeyInput
+  ) => {
     return crypto
       .createVerify("RSA-SHA" + bits)
       .update(thing)
@@ -55,10 +65,8 @@ function createKeyVerifier(bits: string): Verify {
   };
 }
 
-function createPSSKeySigner(bits: string): Sign {
-  return (thing, privateKey) => {
-    checkIsPrivateKey(privateKey);
-
+function createPSSKeySigner(bits: string) {
+  return (thing: crypto.BinaryLike, privateKey: string | Buffer) => {
     return crypto
       .createSign("RSA-SHA" + bits)
       .update(thing)
@@ -73,10 +81,12 @@ function createPSSKeySigner(bits: string): Sign {
   };
 }
 
-function createPSSKeyVerifier(bits: string): Verify {
-  return (thing, signature, publicKey) => {
-    checkIsPublicKey(publicKey);
-
+function createPSSKeyVerifier(bits: string) {
+  return (
+    thing: crypto.BinaryLike,
+    signature: string,
+    publicKey: string | Buffer
+  ) => {
     return crypto
       .createVerify("RSA-SHA" + bits)
       .update(thing)
@@ -92,16 +102,29 @@ function createPSSKeyVerifier(bits: string): Verify {
   };
 }
 
-function createECDSASigner(bits: string): Sign {
+function createECDSASigner(bits: string) {
   const inner = createKeySigner(bits);
-  return (thing, secret) => {
+  return (
+    thing: crypto.BinaryLike,
+    secret:
+      | crypto.KeyLike
+      | crypto.SignKeyObjectInput
+      | crypto.SignPrivateKeyInput
+  ) => {
     return formatEcdsa.derToJose(inner(thing, secret), "ES" + bits);
   };
 }
 
-function createECDSAVerifier(bits: string): Verify {
+function createECDSAVerifier(bits: string) {
   const inner = createKeyVerifier(bits);
-  return (thing, signature, publicKey) => {
+  return (
+    thing: crypto.BinaryLike,
+    signature: string,
+    publicKey:
+      | crypto.KeyLike
+      | crypto.VerifyKeyObjectInput
+      | crypto.VerifyPublicKeyInput
+  ) => {
     signature = formatEcdsa
       .joseToDer(signature, "ES" + bits)
       .toString("base64");
@@ -110,11 +133,11 @@ function createECDSAVerifier(bits: string): Verify {
   };
 }
 
-function createNoneSigner(): Sign {
+function createNoneSigner() {
   return () => "";
 }
 
-function createNoneVerifier(): Verify {
+function createNoneVerifier() {
   return (_: any, signature: any) => signature === "";
 }
 
