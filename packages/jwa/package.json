@@ -1,0 +1,13 @@
+{
+  "name": "@node-jsonwebtoken-ts/jwa",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jwa": "^2.0.0",
+    "jwa": "^2.0.0"
+  },
+  "dependencies": {
+    "buffer-equal-constant-time": "^1.0.1",
+    "ecdsa-sig-formatter": "^1.0.11"
+  }
+}

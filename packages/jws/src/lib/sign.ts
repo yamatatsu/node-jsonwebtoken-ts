@@ -2,12 +2,8 @@ import { Buffer } from "safe-buffer";
 // @ts-ignore
 import jwa from "jwa";
 
-function base64url(str: string, encoding?: string) {
-  return Buffer.from(str, encoding)
-    .toString("base64")
-    .replace(/=/g, "")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
+function base64url(obj: object, encoding?: string) {
+  return Buffer.from(JSON.stringify(obj), encoding).toString("base64url");
 }
 
 function jwsSecuredInput(
@@ -15,8 +11,8 @@ function jwsSecuredInput(
   payload: object,
   encoding: string = "utf8"
 ) {
-  const encodedHeader = base64url(JSON.stringify(header), "binary");
-  const encodedPayload = base64url(JSON.stringify(payload), encoding);
+  const encodedHeader = base64url(header, "binary");
+  const encodedPayload = base64url(payload, encoding);
   return `${encodedHeader}.${encodedPayload}`;
 }
 
