@@ -1,8 +1,8 @@
 {
   "name": "node-jsonwebtoken-ts",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "author": "yamatatsu <the.kinnikuman@gmail.com>",
   "scripts": {
     "test": "vitest --coverage"
   },

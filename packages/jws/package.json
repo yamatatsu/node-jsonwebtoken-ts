@@ -1,0 +1,12 @@
+{
+  "name": "@node-jsonwebtoken-ts/jws",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "jws": "4.0.0"
+  },
+  "dependencies": {
+    "jwa": "^2.0.0",
+    "safe-buffer": "^5.2.1"
+  }
+}
