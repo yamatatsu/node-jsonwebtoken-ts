@@ -1,0 +1,13 @@
+{
+  "name": "@node-jsonwebtoken-ts/jwt",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/jws": "^3.2.4",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "dependencies": {
+    "jws": "^4.0.0"
+  }
+}

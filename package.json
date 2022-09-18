@@ -18,5 +18,8 @@
   },
   "dependencies": {
     "jws": "^4.0.0"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
