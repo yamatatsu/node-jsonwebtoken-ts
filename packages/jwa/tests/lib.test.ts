@@ -1,4 +1,4 @@
-import { test, expect, describe } from "vitest";
+import { test, expect } from "vitest";
 import { typeError, getAlgAndBits } from "../src/lib";
 
 test("getAlgAndBits", () => {
