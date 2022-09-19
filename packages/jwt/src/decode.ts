@@ -1,7 +1,7 @@
-import jws from "jws";
+import jws, { Header } from "@node-jsonwebtoken-ts/jws";
 
 type DecodeCompletelyResult = {
-  header: jws.Header;
+  header: Header;
   payload: any;
   signature: string;
 };

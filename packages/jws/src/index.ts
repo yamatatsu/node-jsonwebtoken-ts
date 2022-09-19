@@ -1,5 +1,5 @@
-import { sign } from "./lib/sign"
-import { verify, decode, isValid } from "./lib/verify"
+import { sign, Header } from "./lib/sign";
+import { verify, decode, isValid } from "./lib/verify";
 
 export const ALGORITHMS = [
   "HS256",
@@ -14,6 +14,7 @@ export const ALGORITHMS = [
   "ES256",
   "ES384",
   "ES512",
-]
+];
 
-export { sign, verify, decode, isValid }
+export type { Header };
+export { sign, verify, decode, isValid };
